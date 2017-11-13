@@ -5,7 +5,7 @@
 # But the docker group does not exist inside the container !
 # So we pass the host docker group id in a environment variable
 # in order to put jenkins in the docker group dynamically (at run)
-# and not statically (in Dockerfile)
+# For that, we use "--group-add" docker run option to add the corresponding group
 
 # Search for docker group GID
 if [[ $(command -v getent >/dev/null 2>&1) ]]
@@ -18,6 +18,7 @@ fi
 
 docker run --rm -it \
     -e DOCKER_GID=${DOCKER_GID} \
+    --group-add ${DOCKER_GID} \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(which docker):/usr/bin/docker \
 		-v jenkins-data:/var/jenkins_home  \
