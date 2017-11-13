@@ -21,8 +21,6 @@ docker run --rm -it \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(which docker):/usr/bin/docker \
 		-v jenkins-data:/var/jenkins_home  \
-    # http://container-solutions.com/continuous-delivery-with-docker-on-mesos-in-less-than-a-minute/
-		#-v $(pwd):/var/jenkins_data \
 		-p 8080:8080 \
     -p 50000:50000 \
 		yogeek/jenkins-dood
