@@ -11,6 +11,10 @@ USER root
 #     groupadd -g 100 docker && \
 #     usermod -a -G docker jenkins
 
+# Install sudo
+RUN apt-get update && \
+    apt-get -y install sudo && \
+    apt-get clean
 # Add jenkins to sudoers to be able to add it to docker group in entrypoint
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 

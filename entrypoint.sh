@@ -21,7 +21,7 @@ else
   # (normally yes, 'users' group in the officiel jenkins image)
   docker_group=$(getent group $DOCKER_GID | cut -d: -f1)
   # If such a group does not exist, we create a brand new docker group with the good gid
-  if [[ "$docker_group" == "" ]]
+  if [ "$docker_group" == "" ]
   then
     echo "No group with ${DOCKER_GID} gid : we create docker group with this id"
     sudo groupadd -g ${DOCKER_GID} docker
