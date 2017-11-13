@@ -19,19 +19,22 @@ USAGE:
 else
   # Is a group with gid=DOCKER_GID already exists ?
   # (normally yes, 'users' group in the officiel jenkins image)
-  docker_group=$(getent group $DOCKER_GID | cut -d: -f1)
+  dockergroup=$(getent group $DOCKER_GID | cut -d: -f1)
   # If such a group does not exist, we create a brand new docker group with the good gid
-  if [ "$docker_group" == "" ]
+  if [ -z ${dockergroup} ]
   then
     echo "No group with ${DOCKER_GID} gid : we create docker group with this id"
     sudo groupadd -g ${DOCKER_GID} docker
   # If such a group already exist, it will serve as the 'docker' group inside the container
   # (in linux permission management, only id and gid matters, not names)
   else
-    echo "A group already exists with ${DOCKER_GID} gid (${docker_group}) : we take this group as docker group"
+    echo "A group already exists with ${DOCKER_GID} gid (${dockergroup}) : we take this group as docker group"
   fi
   # Add jenkins user to docker group
-  sudo gpasswd -a jenkins ${docker_group}
+  sudo gpasswd -a jenkins ${dockergroup}
+  # Hack to reload group assignments without logging out
+  # https://superuser.com/a/609141
+  exec sudo su -l jenkins
 fi
 
 # We want to keep the original behaviour of the image
