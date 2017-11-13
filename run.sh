@@ -19,6 +19,7 @@ fi
 docker run --rm -it \
     -e DOCKER_GID=${DOCKER_GID} \
     --group-add ${DOCKER_GID} \
+    -e JAVA_OPTS=-Djenkins.install.runSetupWizard=false \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(which docker):/usr/bin/docker \
 		-v jenkins-data:/var/jenkins_home  \
